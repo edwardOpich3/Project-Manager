@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Project Manager</title>
+    <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
+    <link rel="shortcut icon" href="/assets/img/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+</head>
+<body>
+    <!-- Begin Page Layout -->
+    <nav>
+        <!-- Username here, above everything else -->
+        <div class="navlink"><a id="mainLink" href="/main">Projects</a></div>
+        <div class="navlink"><a id="settingsLink" href="/settings">Settings</a></div>
+        <div class="navlink"><a href="/logout">Log Out</a></div>
+    </nav>
+
+    <section id="content">
+        <!-- Can change from overview of all projects,
+        to view of individual project,
+        to view of individual component,
+        to account settings -->
+    </section>
+
+    <div id="errorMessage">
+    </div>
+    <!-- End Page Layout -->
+
+    <!-- Bundle belonging to this view goes here -->
+    <script src="/assets/bundle.js"></script>
+</body>
+</html>
