@@ -56,7 +56,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
-      premium: false
+      premium: false,
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -80,80 +80,102 @@ const signup = (request, response) => {
   });
 };
 
-const settingsChange = (req, res) => {
+const settingsChange = (request, response) => {
+  const req = request;
+  const res = response;
+
   // First thing that needs to be done is check if the password is correct.
   // If not, insta-abort the operation
-  Account.AccountModel.authenticate(req.session.account.username, req.body.passAuth, (err, account) => {
+  Account.AccountModel.authenticate(req.session.account.username, req.body.passAuth,
+  (err, account) => {
     if (err || !account) {
       return res.status(401).json({ error: 'Wrong password, changes not applied' });
     }
 
-    const promise = Account.AccountModel.findOne({username: req.session.account.username}).exec((err, doc) => {
-      if(err){
-        console.log(err);
-        res.status(400).json({ error: "Something happened" });
+    const promise = Account.AccountModel.findOne({ username: req.session.account.username })
+    .exec((findErr, findDoc) => {
+      if (findErr) {
+        console.log(findErr);
+        res.status(400).json({ error: 'Something happened' });
       }
-  
-      return doc;
+
+      return findDoc;
     });
 
     // If so, next step is account deletion, since nothing else matters if it'll just be gone
-    if(req.body.delete){
+    if (req.body.delete) {
       promise.then((doc) => {
-        const deletePromise = Account.AccountModel.deleteOne({ _id: doc._id }, (err, doc) => {
-          if(err){
-            console.log(err);
-            return res.status(400).json({ error: "Something happened, no delete" });
+        const deletePromise = Account.AccountModel.deleteOne({ _id: doc._id }, (delErr, delDoc) => {
+          if (delErr) {
+            console.log(delErr);
+            return res.status(400).json({ error: 'Something happened, no delete' });
           }
-    
-          return doc;
+
+          return delDoc;
         });
-    
+
         deletePromise.then(() => {
           req.session.destroy();
           res.redirect('/');
         });
-    
+
         return deletePromise;
       });
-    
+
       return promise;
     }
 
     // After that, check for premium and for password change in no particular order
-    else{
-      promise.then((doc) => {
-        // Check if the passwords are the same before changing
-        if(req.body.passChange === req.body.passChange2 && req.body.passChange != ''){
+    promise.then((document) => {
+      const doc = document;
+
+      // Check if the passwords are the same before changing
+      if (req.body.passChange === req.body.passChange2 && req.body.passChange !== '') {
           // Generate salt and whatnot
-          Account.AccountModel.generateHash(req.body.passChange, (salt, hash) => {
-            const accountData = {
-              salt,
-              password: hash
-            };
+        Account.AccountModel.generateHash(req.body.passChange, (salt, hash) => {
+          const accountData = {
+            salt,
+            password: hash,
+          };
 
-            Account.AccountModel.updateOne({ _id: doc._id }, accountData, (err) => {
-              if(err){
-                console.log(err);
-                console.log("Password change failed");
-              }
-            });
+          Account.AccountModel.updateOne({ _id: doc._id }, accountData, (passErr) => {
+            if (passErr) {
+              console.log(passErr);
+              console.log('Password change failed');
+            }
           });
-        }
+        });
+      }
 
-        // If the premium box is checked, then we're premium!
-        doc.premium = (req.body.premium != null);
+      // console.log("Given value is " + req.body.premium);
+      // console.log("Before it's " + doc.premium);
+      doc.premium = (req.body.premium !== undefined);
+      // console.log("After it's " + doc.premium);
 
-        // Update the actual document!
-        const updatePromise = Account.AccountModel.updateOne({ _id: doc._id }, doc);
+      // Update the actual document!
+      const updatePromise = Account.AccountModel.updateOne(
+        { _id: doc._id },
+        doc
+      );
 
-        updatePromise.then(() => res.json({redirect: '/maker'}));
+      // console.log(doc);
 
-        req.session.account = Account.AccountModel.toAPI(account);
-
-        return updatePromise;
+      updatePromise.then(() => {
+        res.json({ redirect: '/maker' });
+        console.log(`Given value is ${doc.premium}`);
+        console.log(`Before it's ${req.session.account.premium}`);
+        req.session.account = Account.AccountModel.toAPI(doc);
+        console.log(`After it's ${req.session.account.premium}`);
       });
-    }
+
+      updatePromise.catch((updateErr) => {
+        console.log(updateErr);
+      });
+
+      return updatePromise;
+    });
+
+    return promise;
   });
 };
 
@@ -168,9 +190,15 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+const getAccount = (request, response) => {
+  // console.log(request.session.account);
+  response.json(request.session.account);
+};
+
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.settings = settingsChange;
 module.exports.getToken = getToken;
+module.exports.getAccount = getAccount;

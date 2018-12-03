@@ -398,9 +398,9 @@ var SettingsPage = function SettingsPage(props) {
             React.createElement(
                 "label",
                 { htmlFor: "premiumBox" },
-                "Activate Premium Membership: "
+                "Premium Membership: "
             ),
-            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium" }),
+            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", value: props.account.premium }),
             React.createElement(
                 "label",
                 { htmlFor: "deleteBox" },
@@ -473,7 +473,12 @@ var setup = function setup(csrf) {
     var settingsLink = document.querySelector("#settingsLink");
     settingsLink.addEventListener("click", function (e) {
         e.preventDefault();
-        ReactDOM.render(React.createElement(SettingsPage, { csrf: csrf }), document.querySelector("#content"));
+
+        sendAjax("GET", "/getAccount", null, function (result) {
+            console.log(result);
+            ReactDOM.render(React.createElement(SettingsPage, { account: result, csrf: csrf }), document.querySelector("#content"));
+        });
+
         return false;
     });
 

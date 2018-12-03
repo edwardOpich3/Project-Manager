@@ -21,8 +21,8 @@ const RequirementSchema = new mongoose.Schema({
   completed: {
     type: Boolean,
     required: true,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const MilestoneSchema = new mongoose.Schema({
@@ -30,7 +30,7 @@ const MilestoneSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    set: setName
+    set: setName,
   },
 
   description: {
@@ -47,13 +47,13 @@ const MilestoneSchema = new mongoose.Schema({
   order: {
     type: Number,
     required: true,
-    default: 0
+    default: 0,
   },
 
   requirements: {
     type: [RequirementSchema],
-    required: false
-  }
+    required: false,
+  },
 });
 
 const DomoSchema = new mongoose.Schema({
@@ -78,12 +78,12 @@ const DomoSchema = new mongoose.Schema({
   order: {
     type: Number,
     required: true,
-    default: 0
+    default: 0,
   },
 
   milestones: {
     type: [MilestoneSchema],
-    required: false
+    required: false,
   },
 
   owner: {
@@ -107,16 +107,20 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name description deadline order milestones owner').exec(callback);
+  return DomoModel.find(search).select(
+    'name description deadline order milestones owner'
+  ).exec(callback);
 };
 
 DomoSchema.statics.findByName = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
-    name
+    name,
   };
 
-  return DomoModel.find(search).select('name description deadline order milestones owner').exec(callback);
+  return DomoModel.find(search).select(
+    'name description deadline order milestones owner'
+  ).exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);

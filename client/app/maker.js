@@ -253,8 +253,8 @@ const SettingsPage = (props) => {
                 <label htmlFor="passChange">Change Password: </label>
                 <input id="passChange" type="password" name="passChange" placeholder="new password"/>
                 <input id="passChange2" type="password" name="passChange2" placeholder="confirm password"/>
-                <label htmlFor="premiumBox">Activate Premium Membership: </label>
-                <input id="premiumBox" type="checkbox" name="premium" />
+                <label htmlFor="premiumBox">Premium Membership: </label>
+                <input id="premiumBox" type="checkbox" name="premium" value={props.account.premium} />
                 <label htmlFor="deleteBox">Delete Account: </label>
                 <input id="deleteBox" type="checkbox" name="delete" />
 
@@ -324,9 +324,14 @@ const setup = function(csrf){
     const settingsLink = document.querySelector("#settingsLink");
     settingsLink.addEventListener("click", (e) => {
         e.preventDefault();
-        ReactDOM.render(
-            <SettingsPage csrf={csrf}/>, document.querySelector("#content")
-        );
+
+        sendAjax("GET", "/getAccount", null, (result) => {
+            console.log(result);
+            ReactDOM.render(
+                <SettingsPage account={result} csrf={csrf}/>, document.querySelector("#content")
+            );
+        });
+
         return false;
     });
 

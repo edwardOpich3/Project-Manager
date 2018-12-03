@@ -44,27 +44,29 @@ const makeDomo = (req, res) => {
 };
 
 const addMilestone = (req, res) => {
-  if(!req.body.project){
-    return res.status(400).json({ error: "You somehow requested a milestone without attaching it to a project..." });
+  if (!req.body.project) {
+    return res.status(400).json({
+      error: 'You somehow requested a milestone without attaching it to a project...',
+    });
   }
 
-  if(!req.body.name || !req.body.description){
-    return res.status(400).json({ error: "Milestone needs both a name and a description" });
+  if (!req.body.name || !req.body.description) {
+    return res.status(400).json({ error: 'Milestone needs both a name and a description' });
   }
 
   const milestoneData = {
     name: req.body.name,
     description: req.body.description,
-    order: 0
+    order: 0,
   };
 
   const newMilestone = new Domo.MilestoneModel(milestoneData);
 
   // Get our project
-  const project = Domo.DomoModel.findOne({name: req.body.project}).exec((err, doc) => {
-    if(err){
+  const project = Domo.DomoModel.findOne({ name: req.body.project }).exec((err, doc) => {
+    if (err) {
       console.log(err);
-      res.status(400).json({ error: "Something happened" });
+      res.status(400).json({ error: 'Something happened' });
     }
 
     return doc;
@@ -75,17 +77,17 @@ const addMilestone = (req, res) => {
 
     console.log(doc);
 
-    const promise = Domo.DomoModel.updateOne({name: doc.name}, doc);
+    const promise = Domo.DomoModel.updateOne({ name: doc.name }, doc);
 
-    promise.then(() => res.json({redirect: '/maker'}));
+    promise.then(() => res.json({ redirect: '/maker' }));
 
     promise.catch((err) => {
       console.log(err);
-      if(err.code === 11000){
+      if (err.code === 11000) {
         return res.status(400).json({ error: 'Project already exists' });
       }
-  
-      return res.status(400).json({ error: "An error occurred." });
+
+      return res.status(400).json({ error: 'An error occurred.' });
     });
 
     return promise;
@@ -95,26 +97,28 @@ const addMilestone = (req, res) => {
 };
 
 const addRequirement = (req, res) => {
-  if(!req.body.project || !req.body.milestone){
-    return res.status(400).json({ error: "You somehow requested a requirement without attaching it to a valid milestone..." });
+  if (!req.body.project || !req.body.milestone) {
+    return res.status(400).json({
+      error: 'You somehow requested a requirement without attaching it to a valid milestone...',
+    });
   }
 
-  if(!req.body.name){
-    return res.status(400).json({ error: "Requirement needs a name" });
+  if (!req.body.name) {
+    return res.status(400).json({ error: 'Requirement needs a name' });
   }
 
   const requirementData = {
     name: req.body.name,
-    completed: false
+    completed: false,
   };
 
   const newRequirement = new Domo.RequirementModel(requirementData);
 
   // Get our project
-  const project = Domo.DomoModel.findOne({name: req.body.project}).exec((err, projectDoc) => {
-    if(err){
+  const project = Domo.DomoModel.findOne({ name: req.body.project }).exec((err, projectDoc) => {
+    if (err) {
       console.log(err);
-      res.status(400).json({ error: "Something happened" });
+      res.status(400).json({ error: 'Something happened' });
     }
 
     return projectDoc;
@@ -125,17 +129,17 @@ const addRequirement = (req, res) => {
 
     milestone.requirements.push(newRequirement);
 
-    const promise = Domo.DomoModel.updateOne({_id: projectDoc._id}, projectDoc);
+    const promise = Domo.DomoModel.updateOne({ _id: projectDoc._id }, projectDoc);
 
-    promise.then(() => res.json({redirect: '/maker'}));
+    promise.then(() => res.json({ redirect: '/maker' }));
 
     promise.catch((err) => {
       console.log(err);
-      if(err.code === 11000){
+      if (err.code === 11000) {
         return res.status(400).json({ error: 'Project already exists' });
       }
-  
-      return res.status(400).json({ error: "An error occurred." });
+
+      return res.status(400).json({ error: 'An error occurred.' });
     });
 
     return promise;
@@ -145,30 +149,30 @@ const addRequirement = (req, res) => {
 };
 
 const deleteProject = (req, res) => {
-  if(!req.body.project){
+  if (!req.body.project) {
     return res.status(400).json({ error: "Can't delete a project when I'm not given one!" });
   }
 
-  const promise = Domo.DomoModel.findOne({name: req.body.project}).exec((err, doc) => {
-    if(err){
+  const promise = Domo.DomoModel.findOne({ name: req.body.project }).exec((err, doc) => {
+    if (err) {
       console.log(err);
-      res.status(400).json({ error: "Something happened, no find before delete" });
+      res.status(400).json({ error: 'Something happened, no find before delete' });
     }
 
     return doc;
   });
 
   promise.then((doc) => {
-    const deletePromise = Domo.DomoModel.deleteOne({ _id: doc._id }, (err, doc) => {
-      if(err){
+    const deletePromise = Domo.DomoModel.deleteOne({ _id: doc._id }, (err, deleteDoc) => {
+      if (err) {
         console.log(err);
-        return res.status(400).json({ error: "Something happened, no delete" });
+        return res.status(400).json({ error: 'Something happened, no delete' });
       }
 
-      return doc;
+      return deleteDoc;
     });
 
-    deletePromise.then(() => res.json({redirect: '/maker'}));
+    deletePromise.then(() => res.json({ redirect: '/maker' }));
 
     return deletePromise;
   });
