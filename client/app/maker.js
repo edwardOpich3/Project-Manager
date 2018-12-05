@@ -82,9 +82,11 @@ const DomoForm = (props) => {
 const DomoList = function(props) {
     if(props.domos.length === 0){
         return(
-            <div className="domoList">
+            <div>
                 <button id="newProjectButton">New Project</button>
-                <h3 className="emptyDomo">No Projects Yet</h3>
+                <div className="domoList">
+                    <h3 className="emptyDomo">No Projects Yet</h3>
+                </div>
             </div>
         );
     }
@@ -92,9 +94,8 @@ const DomoList = function(props) {
     const domoNodes = props.domos.map(function(domo) {
         return(
             <div key={domo._id} className="domo">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
-                <h3 className="domoName">{domo.name}</h3>
-                <h3 className="domoAge">Due {domo.deadline}</h3>
+                <h3>{domo.name}</h3>
+                <h4>Due {domo.deadline}</h4>
             </div>
         );
     });

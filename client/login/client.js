@@ -37,51 +37,47 @@ const handleSignup = (e) => {
 
 const LoginWindow = (props) => {
     return(
-        <div>
-            <h3>Log In</h3>
-            <form
+        <form
                 id="loginForm"
                 name="loginForm"
                 onSubmit={handleLogin}
                 action="/login"
                 method="POST"
                 className="mainForm"
-            >
-                <label htmlFor="username">Username: </label>
-                <input id="user" type="text" name="username" placeholder="username"/>
-                <label htmlFor="pass">Password: </label>
-                <input id="pass" type="password" name="pass" placeholder="password"/>
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="formSubmit" type="submit" value="Sign in"/>
-            </form>
+        >
+            <h3>Log In</h3>
+            <label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username"/>
+            <label htmlFor="pass">Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="formSubmit" type="submit" value="Sign in"/>
             <p>Don't have an account? <a href="/signup" id="signupButton">Sign Up!</a></p>
-        </div>
+        </form>
     );
 };
 
 const SignupWindow = (props) => {
     return(
-        <div>
+        <form
+            id="signupForm"
+            name="signupForm"
+            onSubmit={handleSignup}
+            action="/signup"
+            method="POST"
+            className="mainForm"
+        >
             <h3>Sign Up</h3>
-            <form
-                id="signupForm"
-                name="signupForm"
-                onSubmit={handleSignup}
-                action="/signup"
-                method="POST"
-                className="mainForm"
-            >
-                <label htmlFor="username">Username: </label>
-                <input id="user" type="text" name="username" placeholder="username"/>
-                <label htmlFor="pass">Password: </label>
-                <input id="pass" type="password" name="pass" placeholder="password"/>
-                <label htmlFor="pass2">Password: </label>
-                <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="formSubmit" type="submit" value="Sign Up"/>
-            </form>
+            <label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username"/>
+            <label htmlFor="pass">Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <label htmlFor="pass2">Password: </label>
+            <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="formSubmit" type="submit" value="Sign Up"/>
             <p>Already have an account? <a href="/login" id="loginButton">Log In!</a></p>
-        </div>
+        </form>
     );
 };
 

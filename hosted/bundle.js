@@ -99,16 +99,20 @@ var DomoList = function DomoList(props) {
     if (props.domos.length === 0) {
         return React.createElement(
             "div",
-            { className: "domoList" },
+            null,
             React.createElement(
                 "button",
                 { id: "newProjectButton" },
                 "New Project"
             ),
             React.createElement(
-                "h3",
-                { className: "emptyDomo" },
-                "No Projects Yet"
+                "div",
+                { className: "domoList" },
+                React.createElement(
+                    "h3",
+                    { className: "emptyDomo" },
+                    "No Projects Yet"
+                )
             )
         );
     }
@@ -117,15 +121,14 @@ var DomoList = function DomoList(props) {
         return React.createElement(
             "div",
             { key: domo._id, className: "domo" },
-            React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
             React.createElement(
                 "h3",
-                { className: "domoName" },
+                null,
                 domo.name
             ),
             React.createElement(
-                "h3",
-                { className: "domoAge" },
+                "h4",
+                null,
                 "Due ",
                 domo.deadline
             )
