@@ -99,19 +99,19 @@ var DomoList = function DomoList(props) {
     if (props.domos.length === 0) {
         return React.createElement(
             "div",
-            null,
+            { className: "domoList" },
             React.createElement(
-                "button",
-                { id: "newProjectButton" },
-                "New Project"
+                "h1",
+                null,
+                "Your Projects"
             ),
             React.createElement(
                 "div",
-                { className: "domoList" },
+                { className: "addDomo" },
                 React.createElement(
                     "h3",
-                    { className: "emptyDomo" },
-                    "No Projects Yet"
+                    null,
+                    "Create New Project"
                 )
             )
         );
@@ -139,11 +139,20 @@ var DomoList = function DomoList(props) {
         "div",
         { className: "domoList" },
         React.createElement(
-            "button",
-            { id: "newProjectButton" },
-            "New Project"
+            "h1",
+            null,
+            "Your Projects"
         ),
-        domoNodes
+        domoNodes,
+        React.createElement(
+            "div",
+            { className: "addDomo" },
+            React.createElement(
+                "h3",
+                null,
+                "Create New Project"
+            )
+        )
     );
 };
 
@@ -377,7 +386,7 @@ var SettingsPage = function SettingsPage(props) {
         "div",
         null,
         React.createElement(
-            "h3",
+            "h1",
             null,
             "Settings"
         ),
@@ -447,7 +456,7 @@ var loadDomosFromServer = function loadDomosFromServer() {
             _loop();
         }
 
-        var newProjectButton = document.querySelector("#newProjectButton");
+        var newProjectButton = document.querySelector(".addDomo");
         newProjectButton.addEventListener("click", function (e) {
             sendAjax("GET", "/getToken", null, function (result) {
                 e.preventDefault();

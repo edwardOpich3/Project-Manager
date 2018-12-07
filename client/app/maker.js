@@ -82,10 +82,10 @@ const DomoForm = (props) => {
 const DomoList = function(props) {
     if(props.domos.length === 0){
         return(
-            <div>
-                <button id="newProjectButton">New Project</button>
-                <div className="domoList">
-                    <h3 className="emptyDomo">No Projects Yet</h3>
+            <div className="domoList">
+            <h1>Your Projects</h1>
+                <div className="addDomo">
+                    <h3>Create New Project</h3>
                 </div>
             </div>
         );
@@ -102,8 +102,11 @@ const DomoList = function(props) {
 
     return(
         <div className="domoList">
-            <button id="newProjectButton">New Project</button>
+        <h1>Your Projects</h1>
             {domoNodes}
+            <div className="addDomo">
+                <h3>Create New Project</h3>
+            </div>
         </div>
     );
 };
@@ -242,7 +245,7 @@ const FullProject = (props) => {
 const SettingsPage = (props) => {
     return(
         <div>
-            <h3>Settings</h3>
+            <h1>Settings</h1>
             <form
                 id="settingsForm"
                 name="settingsForm"
@@ -292,7 +295,7 @@ const loadDomosFromServer = () => {
             });
         }
         
-        const newProjectButton = document.querySelector("#newProjectButton");
+        const newProjectButton = document.querySelector(".addDomo");
         newProjectButton.addEventListener("click", (e) => {
             sendAjax("GET", "/getToken", null, (result) => {
                 e.preventDefault();
