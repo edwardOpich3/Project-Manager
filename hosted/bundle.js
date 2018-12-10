@@ -170,7 +170,11 @@ var FullProject = function FullProject(props) {
                 { id: "deleteForm", onSubmit: handleDelete },
                 React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
                 React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-                React.createElement("input", { type: "submit", value: "Delete Project" })
+                React.createElement(
+                    "button",
+                    { type: "submit" },
+                    React.createElement("img", { src: "assets/img/delete.png" })
+                )
             ),
             React.createElement(
                 "h1",
@@ -351,7 +355,11 @@ var FullProject = function FullProject(props) {
             { id: "deleteForm", onSubmit: handleDelete },
             React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
             React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-            React.createElement("input", { type: "submit", value: "Delete Project" })
+            React.createElement(
+                "button",
+                { type: "submit" },
+                React.createElement("img", { src: "assets/img/delete.png" })
+            )
         ),
         React.createElement(
             "h1",
@@ -445,7 +453,7 @@ var SettingsPage = function SettingsPage(props) {
                 { htmlFor: "premiumBox" },
                 "Premium Membership: "
             ),
-            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", value: props.account.premium })
+            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", checked: props.account.premium })
         ),
         React.createElement(
             "div",

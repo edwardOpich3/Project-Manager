@@ -120,7 +120,9 @@ const FullProject = (props) => {
                     <input type="hidden" name="project" value={props.project.name}/>
                     <input type="hidden" name="_csrf" value={props.csrf}/>
 
-                    <input type="submit" value="Delete Project"/>
+                    <button type="submit">
+                        <img src="assets/img/delete.png"/>
+                    </button>
                 </form>
                 <h1>{props.project.name}</h1>
                 <h3>Due {props.project.deadline}</h3>
@@ -214,7 +216,9 @@ const FullProject = (props) => {
                 <input type="hidden" name="project" value={props.project.name}/>
                 <input type="hidden" name="_csrf" value={props.csrf}/>
 
-                <input type="submit" value="Delete Project"/>
+                <button type="submit">
+                    <img src="assets/img/delete.png"/>
+                </button>
             </form>
             <h1>{props.project.name}</h1>
             <h3>Due {props.project.deadline}</h3>
@@ -257,7 +261,7 @@ const SettingsPage = (props) => {
             <div><input id="passChange2" type="password" name="passChange2" placeholder="confirm password"/></div>
             
             <div><label htmlFor="premiumBox">Premium Membership: </label>
-            <input id="premiumBox" type="checkbox" name="premium" value={props.account.premium} /></div>
+            <input id="premiumBox" type="checkbox" name="premium" checked={props.account.premium} /></div>
             
             <div><label htmlFor="deleteBox">Delete Account: </label>
             <input id="deleteBox" type="checkbox" name="delete" /></div>

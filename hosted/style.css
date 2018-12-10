@@ -312,7 +312,7 @@ h3.emptyDomo {
     float: right;
 }
 
-#deleteForm input {
+#deleteForm button {
     width: 64px;
     height: 64px;
 }
