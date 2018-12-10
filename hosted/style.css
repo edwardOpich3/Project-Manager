@@ -91,35 +91,25 @@ nav:nth-child(1) {
 }
 
 .mainForm {
-    height: 300px;
-    width: 350px;
+    width: 100%;
     margin: 0 auto;
+    margin-bottom: 10px;
     padding-top: 200px;
     font-size: 1.2em;
     text-align: center;
 }
 
-.mainForm h3 {
-    text-align: center;
-}
-
-.mainForm p {
+.mainForm h3, .mainForm p, .mainform div {
     text-align: center;
 }
 
 .mainForm label {
     display: inline-block;
-    /*width: 100px;*/
-    /*margin: 0 12%;
-    margin-right: 10px;*/
+    margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 5px;
     text-align: center;
     font-size: 1.2em;
-}
-
-.mainForm input[type="password"] {
-    margin: 0 25%;
 }
 
 .formSubmit {
@@ -146,16 +136,24 @@ nav:nth-child(1) {
     background-color: #338acc;
 }
 
-#user, #pass, #pass2 {
+.mainForm input[type="text"], .mainForm input[type="password"] {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
     border-radius: 6px;
 }
 
-#user:focus, #pass:focus, #pass2:focus {
+.mainForm input[type="text"]:focus, .mainForm input[type="password"]:focus, .mainform textarea:focus {
     outline: none;
     box-shadow: 0px 0px 1px 1px #55acee;
+}
+
+.projectDesc, #msDesc {
+    width: 600px;
+    resize: vertical;
+    text-align: center;
+    font-size: 1.1em;
+    border-radius: 6px;
 }
 
 #domoMessage {
@@ -278,6 +276,45 @@ h3.emptyDomo {
 
 .addDomo h3 {
     text-align: center;
+}
+
+.fullProject {
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    padding: 5px 10px;
+    width: 50%;
+    border: 2px solid black;
+}
+
+.fullProject h1, h2, h3, h4, p {
+    text-align: left;
+}
+
+.fullProject h1 {
+    font-size: 24pt;
+}
+
+.milestone {
+    display: inline-block;
+    border: 2px solid black;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.requirement {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#deleteForm {
+    float: right;
+}
+
+#deleteForm input {
+    width: 64px;
+    height: 64px;
 }
 
 /*.domo:first-child {

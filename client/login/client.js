@@ -46,12 +46,16 @@ const LoginWindow = (props) => {
                 className="mainForm"
         >
             <h3>Log In</h3>
-            <label htmlFor="username">Username: </label>
-            <input id="user" type="text" name="username" placeholder="username"/>
-            <label htmlFor="pass">Password: </label>
-            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <div><label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username"/></div>
+            
+            <div><label htmlFor="pass">Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="password"/></div>
+            
             <input type="hidden" name="_csrf" value={props.csrf}/>
+
             <input className="formSubmit" type="submit" value="Sign in"/>
+
             <p>Don't have an account? <a href="/signup" id="signupButton">Sign Up!</a></p>
         </form>
     );
@@ -68,14 +72,20 @@ const SignupWindow = (props) => {
             className="mainForm"
         >
             <h3>Sign Up</h3>
-            <label htmlFor="username">Username: </label>
-            <input id="user" type="text" name="username" placeholder="username"/>
-            <label htmlFor="pass">Password: </label>
-            <input id="pass" type="password" name="pass" placeholder="password"/>
-            <label htmlFor="pass2">Password: </label>
-            <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
+
+            <div><label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username"/></div>
+            
+            <div><label htmlFor="pass">Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="password"/></div>
+            
+            <div><label htmlFor="pass2">Password: </label>
+            <input id="pass2" type="password" name="pass2" placeholder="retype password"/></div>
+            
             <input type="hidden" name="_csrf" value={props.csrf}/>
+
             <input className="formSubmit" type="submit" value="Sign Up"/>
+
             <p>Already have an account? <a href="/login" id="loginButton">Log In!</a></p>
         </form>
     );
@@ -93,6 +103,8 @@ const createLoginWindow = (csrf) => {
         createSignupWindow(csrf);
         return false;
     });
+
+    document.querySelector("#errorMessage").innerHTML = "";
 };
 
 const createSignupWindow = (csrf) => {
@@ -107,6 +119,8 @@ const createSignupWindow = (csrf) => {
         createLoginWindow(csrf);
         return false;
     });
+
+    document.querySelector("#errorMessage").innerHTML = "";
 };
 
 const setup = (csrf) => {

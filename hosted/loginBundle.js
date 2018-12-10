@@ -54,17 +54,25 @@ var LoginWindow = function LoginWindow(props) {
             "Log In"
         ),
         React.createElement(
-            "label",
-            { htmlFor: "username" },
-            "Username: "
+            "div",
+            null,
+            React.createElement(
+                "label",
+                { htmlFor: "username" },
+                "Username: "
+            ),
+            React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" })
         ),
-        React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" }),
         React.createElement(
-            "label",
-            { htmlFor: "pass" },
-            "Password: "
+            "div",
+            null,
+            React.createElement(
+                "label",
+                { htmlFor: "pass" },
+                "Password: "
+            ),
+            React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" })
         ),
-        React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign in" }),
         React.createElement(
@@ -97,23 +105,35 @@ var SignupWindow = function SignupWindow(props) {
             "Sign Up"
         ),
         React.createElement(
-            "label",
-            { htmlFor: "username" },
-            "Username: "
+            "div",
+            null,
+            React.createElement(
+                "label",
+                { htmlFor: "username" },
+                "Username: "
+            ),
+            React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" })
         ),
-        React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" }),
         React.createElement(
-            "label",
-            { htmlFor: "pass" },
-            "Password: "
+            "div",
+            null,
+            React.createElement(
+                "label",
+                { htmlFor: "pass" },
+                "Password: "
+            ),
+            React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" })
         ),
-        React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
         React.createElement(
-            "label",
-            { htmlFor: "pass2" },
-            "Password: "
+            "div",
+            null,
+            React.createElement(
+                "label",
+                { htmlFor: "pass2" },
+                "Password: "
+            ),
+            React.createElement("input", { id: "pass2", type: "password", name: "pass2", placeholder: "retype password" })
         ),
-        React.createElement("input", { id: "pass2", type: "password", name: "pass2", placeholder: "retype password" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign Up" }),
         React.createElement(
@@ -138,6 +158,8 @@ var createLoginWindow = function createLoginWindow(csrf) {
         createSignupWindow(csrf);
         return false;
     });
+
+    document.querySelector("#errorMessage").innerHTML = "";
 };
 
 var createSignupWindow = function createSignupWindow(csrf) {
@@ -149,6 +171,8 @@ var createSignupWindow = function createSignupWindow(csrf) {
         createLoginWindow(csrf);
         return false;
     });
+
+    document.querySelector("#errorMessage").innerHTML = "";
 };
 
 var setup = function setup(csrf) {

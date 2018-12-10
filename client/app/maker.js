@@ -4,7 +4,7 @@ const handleDomo = (e) => {
     $("#domoMessage").animate({width: 'hide'}, 350);
 
     if($("#domoName").val() == '' || $("#domoAge").val() == ''){
-        handleError("RAWR! All fields are required");
+        handleError("Not all fields were filled out.");
         return false;
     }
 
@@ -58,24 +58,25 @@ const handleDelete = (e) => {
 
 const DomoForm = (props) => {
     return(
-        <div>
             <form
                 id="domoForm"
                 onSubmit={handleDomo}
                 name="domoForm"
                 action="/maker"
                 method="POST"
-                className="domoForm"
+                className="mainForm"
             >
+                <h1>New Project</h1>
                 <label htmlFor="name">Name: </label>
-                <input id="domoName" type="text" name="name" placeholder="Project Name"/>
+                <div><input id="domoName" type="text" name="name" placeholder="Project Name"/></div>
+
                 <label htmlFor="age">Description: </label>
-                <input id="domoAge" type="text" name="description" placeholder="Description"/>
+                <div><textarea id="domoAge" className="projectDesc" type="text" name="description" placeholder="Description"></textarea></div>
+
                 <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="makeDomoSubmit" type="submit" value="Create Project"/>
+
+                <input className="formSubmit" type="submit" value="Create Project"/>
             </form>
-            <button id="closeButton">Back to Project View</button>
-        </div>
     );
 };
 
@@ -114,34 +115,33 @@ const DomoList = function(props) {
 const FullProject = (props) => {
     if(!props.project.milestones || props.project.milestones.length === 0){
         return(
-            <div>
+            <div className="fullProject">
                 <form id="deleteForm" onSubmit={handleDelete}>
                     <input type="hidden" name="project" value={props.project.name}/>
                     <input type="hidden" name="_csrf" value={props.csrf}/>
 
                     <input type="submit" value="Delete Project"/>
                 </form>
-                <h3>{props.project.name}</h3>
-                <h4>Due {props.project.deadline}</h4>
+                <h1>{props.project.name}</h1>
+                <h3>Due {props.project.deadline}</h3>
                 <p>{props.project.description}</p>
-                <h4>No Milestones Defined</h4>
+                <h2>No Milestones Defined</h2>
                 <form
                 id="milestoneForm"
                 name="milestoneForm"
                 onSubmit={handleMilestone}
                 action="/milestone"
                 method="POST"
-                className="mainForm"
                 >
-                    <label htmlFor="name">Name: </label>
-                    <input id="name" type="text" name="name" placeholder="Milestone Name"/>
-                    <input id="MSDesc" type="text" name="description" placeholder="Description"/>
+                    <label htmlFor="name">New Milestone: </label>
+                    <div><input id="name" type="text" name="name" placeholder="Name"/></div>
+
+                    <div><textarea id="MSDesc" type="text" name="description" placeholder="Description"></textarea></div>
 
                     <input type="hidden" name="project" value={props.project.name}/>
                     <input type="hidden" name="_csrf" value={props.csrf}/>
                     <input className="formSubmit" type="submit" value="Create New Milestone"/>
                 </form>
-                <button id="closeButton">Return to List</button>
             </div>
         );
     }
@@ -149,21 +149,20 @@ const FullProject = (props) => {
     const milestoneNodes = props.project.milestones.map(function(milestone) {
         if(!milestone.requirements || milestone.requirements.length === 0){
             return(
-                <div>
-                    <h4>{milestone.name}</h4>
-                    <h5>Due {milestone.deadline}</h5>
+                <div className="milestone">
+                    <h2>{milestone.name}</h2>
+                    <h4>Due {milestone.deadline}</h4>
                     <p>{milestone.description}</p>
-                    <h5>No Requirements Defined</h5>
+                    <h3>No Requirements Defined</h3>
                     <form
                     id="requirementForm"
                     name="requirementForm"
                     onSubmit={handleRequirement}
                     action="/requirement"
                     method="POST"
-                    className="mainForm"
                     >
-                        <label htmlFor="name">Name: </label>
-                        <input id="name" type="text" name="name" placeholder="Requirement Name"/>
+                        <label htmlFor="name">New Requirement: </label>
+                        <div><input id="name" type="text" name="name" placeholder="Requirement Name"/></div>
 
                         <input type="hidden" name="project" value={props.project.name}/>
                         <input type="hidden" name="milestone" value={milestone._id}/>
@@ -176,18 +175,19 @@ const FullProject = (props) => {
 
         const requirementNodes = milestone.requirements.map(function(requirement) {
             return(
-                <div>
-                    <h5>{requirement.name}</h5>
+                <div className="requirement">
+                    <label>{requirement.name}: </label>
                     <input type="checkbox" value={requirement.completed}/>
                 </div>
             );
         });
 
         return(
-            <div>
-                <h4>{milestone.name}</h4>
-                <h5>Due {milestone.deadline}</h5>
+            <div className="milestone">
+                <h2>{milestone.name}</h2>
+                <h4>Due {milestone.deadline}</h4>
                 <p>{milestone.description}</p>
+                <h3>Requirements:</h3>
                 {requirementNodes}
                 <form
                     id="requirementForm"
@@ -195,10 +195,9 @@ const FullProject = (props) => {
                     onSubmit={handleRequirement}
                     action="/requirement"
                     method="POST"
-                    className="mainForm"
                     >
-                        <label htmlFor="name">Name: </label>
-                        <input id="name" type="text" name="name" placeholder="Requirement Name"/>
+                        <label htmlFor="name">New Requirement: </label>
+                        <div><input id="name" type="text" name="name" placeholder="Requirement Name"/></div>
 
                         <input type="hidden" name="project" value={props.project.name}/>
                         <input type="hidden" name="milestone" value={milestone._id}/>
@@ -210,16 +209,17 @@ const FullProject = (props) => {
     });
 
     return(
-        <div>
+        <div className="fullProject">
             <form id="deleteForm" onSubmit={handleDelete}>
                 <input type="hidden" name="project" value={props.project.name}/>
                 <input type="hidden" name="_csrf" value={props.csrf}/>
 
                 <input type="submit" value="Delete Project"/>
             </form>
-            <h3>{props.project.name}</h3>
-            <h4>Due {props.project.deadline}</h4>
+            <h1>{props.project.name}</h1>
+            <h3>Due {props.project.deadline}</h3>
             <p>{props.project.description}</p>
+            <h2>Milestones:</h2>
             {milestoneNodes}
             <form
                 id="milestoneForm"
@@ -227,47 +227,48 @@ const FullProject = (props) => {
                 onSubmit={handleMilestone}
                 action="/milestone"
                 method="POST"
-                className="mainForm"
             >
-                <label htmlFor="name">Name: </label>
-                <input id="name" type="text" name="name" placeholder="Milestone Name"/>
-                <input id="MSDesc" type="text" name="description" placeholder="Description"/>
+                <label htmlFor="name">New Milestone: </label>
+                <div><input id="name" type="text" name="name" placeholder="Name"/></div>
+
+                <div><textarea id="MSDesc" type="text" name="description" placeholder="Description"></textarea></div>
 
                 <input type="hidden" name="project" value={props.project.name}/>
                 <input type="hidden" name="_csrf" value={props.csrf}/>
                 <input className="formSubmit" type="submit" value="Create New Milestone"/>
             </form>
-            <button id="closeButton">Return to List</button>
         </div>
     );
 };
 
 const SettingsPage = (props) => {
     return(
-        <div>
+        <form
+            id="settingsForm"
+            name="settingsForm"
+            onSubmit={handleSettings}
+            action="/settings"
+            method="POST"
+            className="mainForm"
+        >
             <h1>Settings</h1>
-            <form
-                id="settingsForm"
-                name="settingsForm"
-                onSubmit={handleSettings}
-                action="/settings"
-                method="POST"
-                className="mainForm"
-            >
-                <label htmlFor="passChange">Change Password: </label>
-                <input id="passChange" type="password" name="passChange" placeholder="new password"/>
-                <input id="passChange2" type="password" name="passChange2" placeholder="confirm password"/>
-                <label htmlFor="premiumBox">Premium Membership: </label>
-                <input id="premiumBox" type="checkbox" name="premium" value={props.account.premium} />
-                <label htmlFor="deleteBox">Delete Account: </label>
-                <input id="deleteBox" type="checkbox" name="delete" />
+            <label htmlFor="passChange">Change Password:</label>
+            <div><input id="passChange" type="password" name="passChange" placeholder="new password"/></div>
+            <div><input id="passChange2" type="password" name="passChange2" placeholder="confirm password"/></div>
+            
+            <div><label htmlFor="premiumBox">Premium Membership: </label>
+            <input id="premiumBox" type="checkbox" name="premium" value={props.account.premium} /></div>
+            
+            <div><label htmlFor="deleteBox">Delete Account: </label>
+            <input id="deleteBox" type="checkbox" name="delete" /></div>
+            
+            <div><label htmlFor="passAuth">Type current password to authorize changes: </label></div>
+            <div><input id="passAuth" type="password" name="passAuth" placeholder="password"/></div>
+            
+            <input type="hidden" name="_csrf" value={props.csrf}/>
 
-                <label htmlFor="passAuth">Type current password to authorize changes: </label>
-                <input id="passAuth" type="password" name="passAuth" placeholder="password"/>
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input className="formSubmit" type="submit" value="Change Settings"/>
-            </form>
-        </div>
+            <input className="formSubmit" type="submit" value="Change Settings"/>
+        </form>
     );
 };
 
@@ -287,9 +288,6 @@ const loadDomosFromServer = () => {
                         <FullProject csrf={result.csrfToken} project={currentProject} />, document.querySelector("#content")
                     );
 
-                    const closeButton = document.querySelector("#closeButton");
-                    closeButton.addEventListener("click", loadMainPage);
-
                     return false;
                 });
             });
@@ -302,8 +300,6 @@ const loadDomosFromServer = () => {
                 ReactDOM.render(
                     <DomoForm csrf={result.csrfToken}/>, document.querySelector("#content")
                 );
-                const closeButton = document.querySelector("#closeButton");
-                closeButton.addEventListener("click", loadMainPage)
                 return false;
             });
         });
@@ -321,6 +317,8 @@ const loadMainPage = (e) => {
 
     loadDomosFromServer();
 
+    document.querySelector("#errorMessage").innerHTML = "";
+
     return false;
 };
 
@@ -335,6 +333,8 @@ const setup = function(csrf){
                 <SettingsPage account={result} csrf={csrf}/>, document.querySelector("#content")
             );
         });
+
+        document.querySelector("#errorMessage").innerHTML = "";
 
         return false;
     });

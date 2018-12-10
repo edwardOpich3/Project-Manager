@@ -6,7 +6,7 @@ var handleDomo = function handleDomo(e) {
     $("#domoMessage").animate({ width: 'hide' }, 350);
 
     if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
-        handleError("RAWR! All fields are required");
+        handleError("Not all fields were filled out.");
         return false;
     }
 
@@ -60,38 +60,42 @@ var handleDelete = function handleDelete(e) {
 
 var DomoForm = function DomoForm(props) {
     return React.createElement(
-        "div",
-        null,
+        "form",
+        {
+            id: "domoForm",
+            onSubmit: handleDomo,
+            name: "domoForm",
+            action: "/maker",
+            method: "POST",
+            className: "mainForm"
+        },
         React.createElement(
-            "form",
-            {
-                id: "domoForm",
-                onSubmit: handleDomo,
-                name: "domoForm",
-                action: "/maker",
-                method: "POST",
-                className: "domoForm"
-            },
-            React.createElement(
-                "label",
-                { htmlFor: "name" },
-                "Name: "
-            ),
-            React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Project Name" }),
-            React.createElement(
-                "label",
-                { htmlFor: "age" },
-                "Description: "
-            ),
-            React.createElement("input", { id: "domoAge", type: "text", name: "description", placeholder: "Description" }),
-            React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-            React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "Create Project" })
+            "h1",
+            null,
+            "New Project"
         ),
         React.createElement(
-            "button",
-            { id: "closeButton" },
-            "Back to Project View"
-        )
+            "label",
+            { htmlFor: "name" },
+            "Name: "
+        ),
+        React.createElement(
+            "div",
+            null,
+            React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Project Name" })
+        ),
+        React.createElement(
+            "label",
+            { htmlFor: "age" },
+            "Description: "
+        ),
+        React.createElement(
+            "div",
+            null,
+            React.createElement("textarea", { id: "domoAge", className: "projectDesc", type: "text", name: "description", placeholder: "Description" })
+        ),
+        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+        React.createElement("input", { className: "formSubmit", type: "submit", value: "Create Project" })
     );
 };
 
@@ -160,7 +164,7 @@ var FullProject = function FullProject(props) {
     if (!props.project.milestones || props.project.milestones.length === 0) {
         return React.createElement(
             "div",
-            null,
+            { className: "fullProject" },
             React.createElement(
                 "form",
                 { id: "deleteForm", onSubmit: handleDelete },
@@ -169,12 +173,12 @@ var FullProject = function FullProject(props) {
                 React.createElement("input", { type: "submit", value: "Delete Project" })
             ),
             React.createElement(
-                "h3",
+                "h1",
                 null,
                 props.project.name
             ),
             React.createElement(
-                "h4",
+                "h3",
                 null,
                 "Due ",
                 props.project.deadline
@@ -185,7 +189,7 @@ var FullProject = function FullProject(props) {
                 props.project.description
             ),
             React.createElement(
-                "h4",
+                "h2",
                 null,
                 "No Milestones Defined"
             ),
@@ -196,24 +200,26 @@ var FullProject = function FullProject(props) {
                     name: "milestoneForm",
                     onSubmit: handleMilestone,
                     action: "/milestone",
-                    method: "POST",
-                    className: "mainForm"
+                    method: "POST"
                 },
                 React.createElement(
                     "label",
                     { htmlFor: "name" },
-                    "Name: "
+                    "New Milestone: "
                 ),
-                React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Milestone Name" }),
-                React.createElement("input", { id: "MSDesc", type: "text", name: "description", placeholder: "Description" }),
+                React.createElement(
+                    "div",
+                    null,
+                    React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Name" })
+                ),
+                React.createElement(
+                    "div",
+                    null,
+                    React.createElement("textarea", { id: "MSDesc", type: "text", name: "description", placeholder: "Description" })
+                ),
                 React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
                 React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
                 React.createElement("input", { className: "formSubmit", type: "submit", value: "Create New Milestone" })
-            ),
-            React.createElement(
-                "button",
-                { id: "closeButton" },
-                "Return to List"
             )
         );
     }
@@ -222,14 +228,14 @@ var FullProject = function FullProject(props) {
         if (!milestone.requirements || milestone.requirements.length === 0) {
             return React.createElement(
                 "div",
-                null,
+                { className: "milestone" },
                 React.createElement(
-                    "h4",
+                    "h2",
                     null,
                     milestone.name
                 ),
                 React.createElement(
-                    "h5",
+                    "h4",
                     null,
                     "Due ",
                     milestone.deadline
@@ -240,7 +246,7 @@ var FullProject = function FullProject(props) {
                     milestone.description
                 ),
                 React.createElement(
-                    "h5",
+                    "h3",
                     null,
                     "No Requirements Defined"
                 ),
@@ -251,15 +257,18 @@ var FullProject = function FullProject(props) {
                         name: "requirementForm",
                         onSubmit: handleRequirement,
                         action: "/requirement",
-                        method: "POST",
-                        className: "mainForm"
+                        method: "POST"
                     },
                     React.createElement(
                         "label",
                         { htmlFor: "name" },
-                        "Name: "
+                        "New Requirement: "
                     ),
-                    React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Requirement Name" }),
+                    React.createElement(
+                        "div",
+                        null,
+                        React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Requirement Name" })
+                    ),
                     React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
                     React.createElement("input", { type: "hidden", name: "milestone", value: milestone._id }),
                     React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
@@ -271,11 +280,12 @@ var FullProject = function FullProject(props) {
         var requirementNodes = milestone.requirements.map(function (requirement) {
             return React.createElement(
                 "div",
-                null,
+                { className: "requirement" },
                 React.createElement(
-                    "h5",
+                    "label",
                     null,
-                    requirement.name
+                    requirement.name,
+                    ": "
                 ),
                 React.createElement("input", { type: "checkbox", value: requirement.completed })
             );
@@ -283,14 +293,14 @@ var FullProject = function FullProject(props) {
 
         return React.createElement(
             "div",
-            null,
+            { className: "milestone" },
             React.createElement(
-                "h4",
+                "h2",
                 null,
                 milestone.name
             ),
             React.createElement(
-                "h5",
+                "h4",
                 null,
                 "Due ",
                 milestone.deadline
@@ -300,6 +310,11 @@ var FullProject = function FullProject(props) {
                 null,
                 milestone.description
             ),
+            React.createElement(
+                "h3",
+                null,
+                "Requirements:"
+            ),
             requirementNodes,
             React.createElement(
                 "form",
@@ -308,15 +323,18 @@ var FullProject = function FullProject(props) {
                     name: "requirementForm",
                     onSubmit: handleRequirement,
                     action: "/requirement",
-                    method: "POST",
-                    className: "mainForm"
+                    method: "POST"
                 },
                 React.createElement(
                     "label",
                     { htmlFor: "name" },
-                    "Name: "
+                    "New Requirement: "
                 ),
-                React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Requirement Name" }),
+                React.createElement(
+                    "div",
+                    null,
+                    React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Requirement Name" })
+                ),
                 React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
                 React.createElement("input", { type: "hidden", name: "milestone", value: milestone._id }),
                 React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
@@ -327,7 +345,7 @@ var FullProject = function FullProject(props) {
 
     return React.createElement(
         "div",
-        null,
+        { className: "fullProject" },
         React.createElement(
             "form",
             { id: "deleteForm", onSubmit: handleDelete },
@@ -336,12 +354,12 @@ var FullProject = function FullProject(props) {
             React.createElement("input", { type: "submit", value: "Delete Project" })
         ),
         React.createElement(
-            "h3",
+            "h1",
             null,
             props.project.name
         ),
         React.createElement(
-            "h4",
+            "h3",
             null,
             "Due ",
             props.project.deadline
@@ -351,6 +369,11 @@ var FullProject = function FullProject(props) {
             null,
             props.project.description
         ),
+        React.createElement(
+            "h2",
+            null,
+            "Milestones:"
+        ),
         milestoneNodes,
         React.createElement(
             "form",
@@ -359,75 +382,97 @@ var FullProject = function FullProject(props) {
                 name: "milestoneForm",
                 onSubmit: handleMilestone,
                 action: "/milestone",
-                method: "POST",
-                className: "mainForm"
+                method: "POST"
             },
             React.createElement(
                 "label",
                 { htmlFor: "name" },
-                "Name: "
+                "New Milestone: "
             ),
-            React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Milestone Name" }),
-            React.createElement("input", { id: "MSDesc", type: "text", name: "description", placeholder: "Description" }),
+            React.createElement(
+                "div",
+                null,
+                React.createElement("input", { id: "name", type: "text", name: "name", placeholder: "Name" })
+            ),
+            React.createElement(
+                "div",
+                null,
+                React.createElement("textarea", { id: "MSDesc", type: "text", name: "description", placeholder: "Description" })
+            ),
             React.createElement("input", { type: "hidden", name: "project", value: props.project.name }),
             React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
             React.createElement("input", { className: "formSubmit", type: "submit", value: "Create New Milestone" })
-        ),
-        React.createElement(
-            "button",
-            { id: "closeButton" },
-            "Return to List"
         )
     );
 };
 
 var SettingsPage = function SettingsPage(props) {
     return React.createElement(
-        "div",
-        null,
+        "form",
+        {
+            id: "settingsForm",
+            name: "settingsForm",
+            onSubmit: handleSettings,
+            action: "/settings",
+            method: "POST",
+            className: "mainForm"
+        },
         React.createElement(
             "h1",
             null,
             "Settings"
         ),
         React.createElement(
-            "form",
-            {
-                id: "settingsForm",
-                name: "settingsForm",
-                onSubmit: handleSettings,
-                action: "/settings",
-                method: "POST",
-                className: "mainForm"
-            },
-            React.createElement(
-                "label",
-                { htmlFor: "passChange" },
-                "Change Password: "
-            ),
-            React.createElement("input", { id: "passChange", type: "password", name: "passChange", placeholder: "new password" }),
-            React.createElement("input", { id: "passChange2", type: "password", name: "passChange2", placeholder: "confirm password" }),
+            "label",
+            { htmlFor: "passChange" },
+            "Change Password:"
+        ),
+        React.createElement(
+            "div",
+            null,
+            React.createElement("input", { id: "passChange", type: "password", name: "passChange", placeholder: "new password" })
+        ),
+        React.createElement(
+            "div",
+            null,
+            React.createElement("input", { id: "passChange2", type: "password", name: "passChange2", placeholder: "confirm password" })
+        ),
+        React.createElement(
+            "div",
+            null,
             React.createElement(
                 "label",
                 { htmlFor: "premiumBox" },
                 "Premium Membership: "
             ),
-            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", value: props.account.premium }),
+            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", value: props.account.premium })
+        ),
+        React.createElement(
+            "div",
+            null,
             React.createElement(
                 "label",
                 { htmlFor: "deleteBox" },
                 "Delete Account: "
             ),
-            React.createElement("input", { id: "deleteBox", type: "checkbox", name: "delete" }),
+            React.createElement("input", { id: "deleteBox", type: "checkbox", name: "delete" })
+        ),
+        React.createElement(
+            "div",
+            null,
             React.createElement(
                 "label",
                 { htmlFor: "passAuth" },
                 "Type current password to authorize changes: "
-            ),
-            React.createElement("input", { id: "passAuth", type: "password", name: "passAuth", placeholder: "password" }),
-            React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-            React.createElement("input", { className: "formSubmit", type: "submit", value: "Change Settings" })
-        )
+            )
+        ),
+        React.createElement(
+            "div",
+            null,
+            React.createElement("input", { id: "passAuth", type: "password", name: "passAuth", placeholder: "password" })
+        ),
+        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+        React.createElement("input", { className: "formSubmit", type: "submit", value: "Change Settings" })
     );
 };
 
@@ -444,9 +489,6 @@ var loadDomosFromServer = function loadDomosFromServer() {
                     e.preventDefault();
                     ReactDOM.render(React.createElement(FullProject, { csrf: result.csrfToken, project: currentProject }), document.querySelector("#content"));
 
-                    var closeButton = document.querySelector("#closeButton");
-                    closeButton.addEventListener("click", loadMainPage);
-
                     return false;
                 });
             });
@@ -461,8 +503,6 @@ var loadDomosFromServer = function loadDomosFromServer() {
             sendAjax("GET", "/getToken", null, function (result) {
                 e.preventDefault();
                 ReactDOM.render(React.createElement(DomoForm, { csrf: result.csrfToken }), document.querySelector("#content"));
-                var closeButton = document.querySelector("#closeButton");
-                closeButton.addEventListener("click", loadMainPage);
                 return false;
             });
         });
@@ -478,6 +518,8 @@ var loadMainPage = function loadMainPage(e) {
 
     loadDomosFromServer();
 
+    document.querySelector("#errorMessage").innerHTML = "";
+
     return false;
 };
 
@@ -490,6 +532,8 @@ var setup = function setup(csrf) {
             console.log(result);
             ReactDOM.render(React.createElement(SettingsPage, { account: result, csrf: csrf }), document.querySelector("#content"));
         });
+
+        document.querySelector("#errorMessage").innerHTML = "";
 
         return false;
     });
