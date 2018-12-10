@@ -310,11 +310,23 @@ h3.emptyDomo {
 
 #deleteForm {
     float: right;
+    background-color: none;
 }
 
 #deleteForm button {
     width: 64px;
     height: 64px;
+    background-color: transparent;
+    border: none;
+}
+
+#deleteForm button:hover {
+    cursor: pointer;
+}
+
+#deleteForm button:active {
+    background-color: lightgray;
+    transform: none;
 }
 
 /*.domo:first-child {

@@ -261,7 +261,7 @@ const SettingsPage = (props) => {
             <div><input id="passChange2" type="password" name="passChange2" placeholder="confirm password"/></div>
             
             <div><label htmlFor="premiumBox">Premium Membership: </label>
-            <input id="premiumBox" type="checkbox" name="premium" checked={props.account.premium} /></div>
+            <input id="premiumBox" type="checkbox" name="premium"/></div>
             
             <div><label htmlFor="deleteBox">Delete Account: </label>
             <input id="deleteBox" type="checkbox" name="delete" /></div>
@@ -336,6 +336,13 @@ const setup = function(csrf){
             ReactDOM.render(
                 <SettingsPage account={result} csrf={csrf}/>, document.querySelector("#content")
             );
+
+            premiumBox = document.querySelector("#premiumBox");
+            if(result.premium === true){
+                premiumBox.setAttribute("checked", true);
+            } else {
+                premiumBox.removeAttribute("checked");
+            }
         });
 
         document.querySelector("#errorMessage").innerHTML = "";

@@ -161,11 +161,8 @@ const settingsChange = (request, response) => {
       // console.log(doc);
 
       updatePromise.then(() => {
-        res.json({ redirect: '/maker' });
-        console.log(`Given value is ${doc.premium}`);
-        console.log(`Before it's ${req.session.account.premium}`);
         req.session.account = Account.AccountModel.toAPI(doc);
-        console.log(`After it's ${req.session.account.premium}`);
+        res.json({ redirect: '/maker' });
       });
 
       updatePromise.catch((updateErr) => {

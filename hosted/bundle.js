@@ -453,7 +453,7 @@ var SettingsPage = function SettingsPage(props) {
                 { htmlFor: "premiumBox" },
                 "Premium Membership: "
             ),
-            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium", checked: props.account.premium })
+            React.createElement("input", { id: "premiumBox", type: "checkbox", name: "premium" })
         ),
         React.createElement(
             "div",
@@ -539,6 +539,13 @@ var setup = function setup(csrf) {
         sendAjax("GET", "/getAccount", null, function (result) {
             console.log(result);
             ReactDOM.render(React.createElement(SettingsPage, { account: result, csrf: csrf }), document.querySelector("#content"));
+
+            premiumBox = document.querySelector("#premiumBox");
+            if (result.premium === true) {
+                premiumBox.setAttribute("checked", true);
+            } else {
+                premiumBox.removeAttribute("checked");
+            }
         });
 
         document.querySelector("#errorMessage").innerHTML = "";
